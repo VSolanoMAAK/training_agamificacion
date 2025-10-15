@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ====== Futurista / Neon base ====== */
+@layer base {
+  html, body { @apply h-full; }
+  body { 
+    @apply bg-[#0b1020] text-slate-200;
+    background-image:
+      radial-gradient(1200px 800px at -10% -10%, rgba(99,102,241,.25) 0, transparent 55%),
+      radial-gradient(900px 600px at 110% 10%, rgba(236,72,153,.25) 0, transparent 55%),
+      linear-gradient(180deg, rgba(2,6,23,1), rgba(2,6,23,.9));
+  }
+  h1 { @apply font-extrabold tracking-tight; }
+  h2 { @apply font-semibold; }
+}
+
+/* ====== Components ====== */
+@layer components {
+  .neo-container { @apply max-w-6xl mx-auto px-5 md:px-8; }
+  .glass {
+    @apply bg-white/5 backdrop-blur-xl rounded-2xl ring-1 ring-white/10 shadow-card;
+  }
+  .hero {
+    @apply rounded-3xl overflow-hidden relative;
+    background: radial-gradient(800px 400px at 10% -10%, rgba(99,102,241,.45) 0, transparent 60%),
+               radial-gradient(900px 450px at 110% 0%, rgba(236,72,153,.35) 0, transparent 60%),
+               linear-gradient(110deg, #4338ca 0%, #0ea5e9 50%, #ef2f88 100%);
+  }
+  .hero-inner { @apply relative p-6 md:p-8 text-white; }
+  .hero-sub { text-shadow: 0 1px 2px rgba(0,0,0,.35); }
+  .btn { @apply inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm transition focus:outline-none focus:ring-2 focus:ring-indigo-400; }
+  .btn-primary { @apply btn text-white; background: linear-gradient(90deg,#6366f1,#a855f7); box-shadow: 0 12px 30px -12px rgba(124,58,237,.6); }
+  .btn-ghost { @apply btn bg-white/10 text-white hover:bg-white/20; }
+  .btn-warn { @apply btn text-black; background: linear-gradient(90deg,#f59e0b,#fbbf24); }
+  .chip { @apply text-xs px-2 py-1 rounded-full bg-white/10 text-white; }
+  .panel { @apply glass p-4 md:p-6; }
+}
+
+/* ====== Utilities ====== */
+@layer utilities {
+  .neo-divider { @apply border-white/10; }
+  .neo-input { @apply w-full rounded-xl bg-white/[.06] text-slate-100 placeholder:text-slate-400 border border-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400; }
+}
