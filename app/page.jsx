@@ -110,7 +110,7 @@ const TrainingGamificationApp = () => {
   );
 
   const DashboardView = () => (
-    <div className="pb-24">{/* <- reserva para navbar */}
+    <div className="pb-24">{/* reserva para navbar */}
       <div className="hero">
         <div className="neo-container hero-inner">
           <div className="flex items-center justify-between mb-6">
@@ -156,47 +156,133 @@ const TrainingGamificationApp = () => {
       </div>
 
       <div className="neo-container py-6">
+        {/* Módulos */}
         <div className="mb-8">
           <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
             <BookOpen className="w-5 h-5 text-fuchsia-400" />
             Módulos de Hoy
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {trainingModules.map((module) => (
-              <div
-                key={module.id}
-                onClick={() => startModule(module)}
-                className={`relative overflow-hidden rounded-2xl shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 cursor-pointer ${module.locked ? "opacity-60" : ""}`}
-              >
-                <div className={`bg-gradient-to-br ${module.color} p-6 text-white`}>
-                  <div className="absolute top-4 right-4 text-6xl opacity-25 select-none">{module.icon}</div>
-                  <div className="relative z-10">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs px-2 py-1 rounded-full bg-white/20 text-white">{module.category}</span>
-                      <div className="flex gap-2">{module.locked && <Lock className="w-5 h-5" />}{module.completed && <CheckCircle className="w-5 h-5" />}</div>
-                    </div>
-                    <h3 className="text-xl font-bold mb-2 drop-shadow">{module.title}</h3>
-                    <div className="flex items-center gap-4 text-sm">
-                      <span className="flex items-center"><Clock className="w-4 h-4 mr-1" />{module.duration}</span>
-                      <span className="flex items-center"><Zap className="w-4 h-4 mr-1" />+{module.points} XP</span>
-                      <span className="bg-white/30 px-2 py-1 rounded">{module.difficulty}</span>
-                    </div>
-                    {module.progress > 0 && !module.completed && (
-                      <div className="mt-4">
-                        <div className="bg-white/30 rounded-full h-2">
-                          <div className="bg-white h-2 rounded-full transition-all" style={{ width: `${module.progress}%` }} />
-                        </div>
-                        <p className="text-xs mt-1"> {module.progress}% completado</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+          {trainingModules.map((module) => (
+            <div
+              key={module.id}
+              onClick={() => startModule(module)}
+              className={`relative overflow-hidden rounded-2xl shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 cursor-pointer ${module.locked ? "opacity-60" : ""}`}
+            >
+              <div className={`bg-gradient-to-br ${module.color} p-6 text-white`}>
+                <div className="absolute top-4 right-4 text-6xl opacity-25 select-none">{module.icon}</div>
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs px-2 py-1 rounded-full bg-white/20 text-white">{module.category}</span>
+                    <div className="flex gap-2">{module.locked && <Lock className="w-5 h-5" />}{module.completed && <CheckCircle className="w-5 h-5" />}</div>
+                  </div>
+                  <h3 className="text-xl font-bold mb-2 drop-shadow">{module.title}</h3>
+                  <div className="flex items-center gap-4 text-sm">
+                    <span className="flex items-center"><Clock className="w-4 h-4 mr-1" />{module.duration}</span>
+                    <span className="flex items-center"><Zap className="w-4 h-4 mr-1" />+{module.points} XP</span>
+                    <span className="bg-white/30 px-2 py-1 rounded">{module.difficulty}</span>
+                  </div>
+                  {module.progress > 0 && !module.completed && (
+                    <div className="mt-4">
+                      <div className="bg-white/30 rounded-full h-2">
+                        <div className="bg-white h-2 rounded-full transition-all" style={{ width: `${module.progress}%` }} />
                       </div>
-                    )}
+                      <p className="text-xs mt-1">{module.progress}% completado</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Ranking */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+            <Trophy className="w-5 h-5 text-fuchsia-400" />
+            Ranking Semanal
+          </h2>
+          <div className="glass p-6">
+            <div className="space-y-4">
+              {leaderboard.map((player) => (
+                <div
+                  key={player.rank}
+                  className={`flex items-center justify-between p-4 rounded-xl ${player.isCurrentUser ? "bg-fuchsia-500/10 ring-1 ring-fuchsia-400/30" : "bg-white/5"}`}
+                >
+                  <div className="flex items-center gap-4">
+                    <div className={`text-2xl font-bold ${player.rank <= 3 ? "text-yellow-400" : "text-slate-400"}`}>#{player.rank}</div>
+                    <div className="text-3xl">{player.avatar}</div>
+                    <div>
+                      <p className="font-bold text-slate-100">{player.name}</p>
+                      <p className="text-sm text-slate-400">{player.department} • Nivel {player.level}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-2xl font-extrabold text-slate-100">{player.points.toLocaleString()}</p>
+                    <p className="text-sm text-slate-400">puntos</p>
+                    {player.trend === "up" && <span className="text-emerald-400 text-sm">↑</span>}
+                    {player.trend === "down" && <span className="text-rose-400 text-sm">↓</span>}
                   </div>
                 </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Premios */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+            <Gift className="w-5 h-5 text-fuchsia-400" />
+            Canjea tus Puntos
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {rewards.map((r) => (
+              <div key={r.id} className={`glass p-6 text-center ${(!r.available || userPoints < r.cost) ? "opacity-60" : ""}`}>
+                <div className="text-5xl mb-3">{r.icon}</div>
+                <h3 className="font-semibold">{r.name}</h3>
+                <p className="text-sm text-slate-400 mb-3">{r.description}</p>
+                <p className="text-2xl font-extrabold text-fuchsia-300">{r.cost} pts</p>
+                <button
+                  onClick={() => claimReward(r)}
+                  disabled={!r.available || userPoints < r.cost}
+                  className={`mt-3 px-4 py-2 rounded-lg font-bold transition-all bg-gradient-to-r from-indigo-500 to-fuchsia-600 text-white ${(!r.available || userPoints < r.cost) ? "opacity-50 cursor-not-allowed" : "hover:brightness-110"}`}
+                >
+                  {!r.available ? "No disponible" : userPoints < r.cost ? "Puntos insuficientes" : "Canjear"}
+                </button>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Ranking, premios y logros… (igual que antes, omitido por espacio) */}
+        {/* Logros */}
+        <div className="mb-2">
+          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+            <Award className="w-5 h-5 text-fuchsia-400" />
+            Tus Logros
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {achievements.map((a) => (
+              <div key={a.id} className={`glass p-6 text-center ${a.unlocked ? "" : "opacity-60"}`}>
+                <div className="text-5xl mb-3">{a.unlocked ? a.icon : "🔒"}</div>
+                <h3 className="font-semibold">{a.name}</h3>
+                <p className="text-sm text-slate-400 mb-2">{a.description}</p>
+                {a.unlocked ? (
+                  <p className="text-xs text-emerald-400">Desbloqueado: {a.date}</p>
+                ) : (
+                  a.progress != null && (
+                    <div>
+                      <div className="bg-white/10 rounded-full h-2 mb-1">
+                        <div className="bg-gradient-to-r from-indigo-400 to-fuchsia-400 h-2 rounded-full" style={{ width: `${(a.progress / a.total) * 100}%` }} />
+                      </div>
+                      <p className="text-xs text-slate-400">{a.progress}/{a.total}</p>
+                    </div>
+                  )
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -204,7 +290,7 @@ const TrainingGamificationApp = () => {
   const ModuleView = () => {
     if (!selectedModule) return null;
     return (
-      <div className="pb-[96px]">{/* <- reserva fija para el navbar */}
+      <div className="pb-[96px]">{/* reserva fija para el navbar */}
         <div className={`text-white p-6 bg-gradient-to-br ${selectedModule.color}`}>
           <div className="neo-container">
             <button onClick={() => setCurrentView("dashboard")} className="mb-4 text-white/90 hover:text-white">← Volver</button>
@@ -234,7 +320,9 @@ const TrainingGamificationApp = () => {
               </div>
 
               <div className="flex justify-center">
-                <button onClick={startQuiz} className="btn-primary text-white px-6 py-3 rounded-xl">Comenzar Evaluación</button>
+                <button onClick={startQuiz} className="px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-fuchsia-600 text-white hover:brightness-110">
+                  Comenzar Evaluación
+                </button>
               </div>
             </div>
           ) : (
@@ -276,8 +364,55 @@ const TrainingGamificationApp = () => {
           <p className="text-white/70">Monitorea el progreso de tu equipo en tiempo real</p>
         </div>
       </div>
-      {/* …resto igual… */}
-      <div className="h-[96px]" />
+      <div className="neo-container py-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+          {[
+            { icon: <Users className="w-8 h-8 text-sky-400" />, pct: "+12%", value: "47", label: "Empleados Activos" },
+            { icon: <BookOpen className="w-8 h-8 text-fuchsia-400" />, pct: "+25%", value: "324", label: "Módulos Completados" },
+            { icon: <TrendingUp className="w-8 h-8 text-emerald-400" />, pct: "+18%", value: "89%", label: "Tasa de Finalización" },
+            { icon: <Target className="w-8 h-8 text-amber-400" />, pct: "+30%", value: "4.7/5", label: "Satisfacción Promedio" },
+          ].map((k, idx) => (
+            <div key={idx} className="glass p-6">
+              <div className="flex items-center justify-between mb-2">
+                {k.icon}<span className="text-emerald-400 text-sm">{k.pct}</span>
+              </div>
+              <p className="text-2xl font-extrabold">{k.value}</p>
+              <p className="text-slate-400">{k.label}</p>
+            </div>
+          ))}
+        </div>
+        <div className="glass p-6 mb-8">
+          <h2 className="font-semibold mb-4">Progreso por Departamento</h2>
+          <div className="space-y-4">
+            {["Cocina", "Servicio", "Bar", "Administración"].map((dept, i) => {
+              const progress = [85, 72, 90, 68][i];
+              return (
+                <div key={dept}>
+                  <div className="flex justify-between mb-2"><span className="font-medium">{dept}</span><span className="text-slate-400">{progress}%</span></div>
+                  <div className="bg-white/10 rounded-full h-3"><div className="bg-gradient-to-r from-indigo-400 to-fuchsia-400 h-3 rounded-full" style={{ width: `${progress}%` }} /></div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <div className="glass p-6">
+          <h2 className="font-semibold mb-4">Empleados Destacados del Mes</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {leaderboard.slice(0, 3).map((e) => (
+              <div key={e.rank} className="text-center p-4 bg-gradient-to-br from-indigo-900/30 to-fuchsia-900/30 rounded-xl">
+                <div className="text-6xl mb-2">{e.avatar}</div>
+                <h3 className="font-semibold">{e.name}</h3>
+                <p className="text-slate-400">{e.department}</p>
+                <div className="mt-3">
+                  <p className="text-2xl font-extrabold text-fuchsia-300">{e.points.toLocaleString()}</p>
+                  <p className="text-sm text-slate-400">puntos este mes</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="h-[96px]" />
+      </div>
     </div>
   );
 
