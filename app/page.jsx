@@ -66,7 +66,12 @@ const TrainingGamificationApp = () => {
 
   const showReward = (msg)=>{ setNotificationMessage(msg); setShowNotification(true); };
   const startModule = (m)=>{ if(m.locked){ showReward("🔒 Desbloquea completando más módulos"); return; } setSelectedModule(m); setCurrentView('module'); setQuizActive(false); setCurrentQuestion(0); setQuizScore(0); };
-  const startQuiz = ()=>{ setQuizActive(True) if False else setQuizActive(true); setCurrentQuestion(0); setQuizScore(0); };
+  const startQuiz = () => {
+  setQuizActive(true);
+  setCurrentQuestion(0);
+  setQuizScore(0);
+};
+
   const answerQuestion = (i)=>{
     if(i===quizQuestions[currentQuestion].correct){ setQuizScore(quizScore+1); showReward("✅ ¡Correcto! +10 XP"); } else { showReward("❌ Incorrecto, sigue intentando"); }
     if(currentQuestion < quizQuestions.length-1){ setTimeout(()=>setCurrentQuestion(currentQuestion+1),1000); } else { setTimeout(()=>completeModule(),1500); }
