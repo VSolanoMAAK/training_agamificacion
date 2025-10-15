@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import {
   Trophy, Star, Target, Zap, Gift, TrendingUp, Users, BookOpen, Award,
   Clock, CheckCircle, Lock, Play, Crown, Sparkles, Gamepad2, BarChart3,
-  User, Settings, Volume2, VolumeX
+  User, Settings, Volume2, VolumeX, Flame
 } from "lucide-react";
 
 /* === Lógica intacta === */
